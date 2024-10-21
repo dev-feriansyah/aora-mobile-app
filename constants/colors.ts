@@ -1,16 +1,22 @@
 const primary = {
-  main: 'hsl(38 100% 50%)',
+  DEFAULT: 'hsl(240, 15%, 12%)',
+  100: 'hsla(233, 19%, 17%, 1)',
+}
+
+const secondary = {
+  DEFAULT: 'hsl(36, 100%, 50%)',
+  100: 'hsl(36, 100%, 49%)',
+  200: 'hsl(36, 100%, 49%)',
 }
 
 const gray = {
-  text: 'hsl(240 23% 84%)',
-  border: 'hsl(233 19% 17%)',
-  light: 'hsl(240 20% 15%)',
-  dark: 'hsl(240 21% 11%)',
+  100: 'hsl(240, 23%, 84%)',
 }
 
-const base = {
-  white: 'hsla(0, 0%, 100%, 1)',
+const black = {
+  DEFAULT: 'hsl(0, 0%, 0%)',
+  100: 'hsl(240, 10%, 15%)',
+  200: 'hsl(228, 11%, 17%)',
 }
 
-export { primary, gray, base }
+export { primary, secondary, gray, black }

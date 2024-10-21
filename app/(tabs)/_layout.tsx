@@ -2,7 +2,7 @@ import { View, Image, Text, ImageSourcePropType } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 import { icons } from '@/constants'
-import { gray, primary } from '@/constants/colors'
+import { black, gray, primary, secondary } from '@/constants/colors'
 
 interface TabIconProps {
   color: string
@@ -37,15 +37,15 @@ const TabsLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: primary.main,
-        tabBarInactiveTintColor: gray.text,
+        tabBarActiveTintColor: secondary.DEFAULT,
+        tabBarInactiveTintColor: gray[100],
         tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: gray.dark,
+          backgroundColor: primary.DEFAULT,
           height: 84,
           borderTopWidth: 1,
-          borderTopColor: gray.border,
+          borderTopColor: primary[100],
         },
       }}
     >

@@ -1,37 +1,41 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { Stack } from 'expo-router'
+import { useFonts } from 'expo-font'
+import { useEffect } from 'react'
+import * as SplashScreen from 'expo-splash-screen'
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  const [fontsLoaded, error] = useFonts({
+    'Poppins-Black': require('@/assets/fonts/Poppins-Black.otf'),
+    'Poppins-Bold': require('@/assets/fonts/Poppins-Bold.otf'),
+    'Poppins-ExtraBold': require('@/assets/fonts/Poppins-ExtraBold.otf'),
+    'Poppins-ExtraLight': require('@/assets/fonts/Poppins-ExtraLight.otf'),
+    'Poppins-Light': require('@/assets/fonts/Poppins-Light.otf'),
+    'Poppins-Medium': require('@/assets/fonts/Poppins-Medium.otf'),
+    'Poppins-Regular': require('@/assets/fonts/Poppins-Regular.otf'),
+    'Poppins-SemiBold': require('@/assets/fonts/Poppins-SemiBold.otf'),
+    'Poppins-Thin': require('@/assets/fonts/Poppins-Thin.otf'),
+  })
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    if (error) throw error
 
-  if (!loaded) {
-    return null;
+    if (fontsLoaded) {
+      SplashScreen.hideAsync()
+    }
+  }, [fontsLoaded, error])
+
+  if (!fontsLoaded) {
+    return null
   }
 
+  if (!fontsLoaded && !error) {
+    return null
+  }
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
-  );
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+    </Stack>
+  )
 }

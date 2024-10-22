@@ -1,12 +1,17 @@
 import AButton from '@/components/AButton'
 import { images } from '@/constants'
 import { primary } from '@/constants/colors'
-import { router } from 'expo-router'
+import { useUserAuth } from '@/contexts/useUserAuthContext'
+import { Redirect, router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { ScrollView, Text, View, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function Index() {
+  const { user } = useUserAuth()
+
+  if (user) return <Redirect href="/home" />
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView contentContainerStyle={{ height: '100%' }}>

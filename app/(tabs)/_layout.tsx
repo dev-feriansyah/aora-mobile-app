@@ -1,8 +1,9 @@
 import { View, Image, Text, ImageSourcePropType } from 'react-native'
 import React from 'react'
-import { Tabs } from 'expo-router'
+import { Tabs, Redirect } from 'expo-router'
 import { icons } from '@/constants'
 import { black, gray, primary, secondary } from '@/constants/colors'
+import { useUserAuth } from '@/contexts/useUserAuthContext'
 
 interface TabIconProps {
   color: string
@@ -28,6 +29,10 @@ const TabIcon = (props: TabIconProps) => {
 }
 
 const TabsLayout = () => {
+  const { user } = useUserAuth()
+
+  if (!user) return <Redirect href="/" />
+
   const tabs = [
     { name: 'home', title: 'Home', icon: icons.home },
     { name: 'create', title: 'Create', icon: icons.plus },

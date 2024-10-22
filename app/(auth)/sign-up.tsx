@@ -1,17 +1,39 @@
-import { View, ScrollView, Image, Text, TextInput } from 'react-native'
+import { View, ScrollView, Image, Text, Alert } from 'react-native'
 import { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '@/constants'
 import AFormFIeld from '@/components/AFormFIeld'
 import AButton from '@/components/AButton'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
+import { useUserAuth } from '@/contexts/useUserAuthContext'
 
 const SignUp = () => {
+  const auth = useUserAuth()
+
   const [form, setForm] = useState({
-    username: '',
     email: '',
     password: '',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const submit = async () => {
+    if (!form.email || !form.password) {
+      Alert.alert('Error', 'Please fill all the fields')
+      return
+    }
+
+    try {
+      setIsSubmitting(true)
+      await auth.signUp(form)
+
+      router.push('/home')
+    } catch (error) {
+      if (error instanceof Error) Alert.alert('Error', error.message)
+      else Alert.alert('Error', 'Something went wrong')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -27,16 +49,10 @@ const SignUp = () => {
           </Text>
 
           <AFormFIeld
-            name="Username"
-            type="text"
-            containerStyle="mt-6"
-            value={form.username}
-            onChangeText={(event) => setForm({ ...form, username: event })}
-          />
-          <AFormFIeld
             name="Email"
             type="text"
             containerStyle="mt-6"
+            keyboardType="email-address"
             value={form.email}
             onChangeText={(event) => setForm({ ...form, email: event })}
           />
@@ -44,11 +60,18 @@ const SignUp = () => {
             name="Password"
             type="password"
             containerStyle="mt-6"
+            keyboardType="default"
             value={form.password}
             onChangeText={(event) => setForm({ ...form, password: event })}
           />
 
-          <AButton containerStyle="mt-8">Sign Up</AButton>
+          <AButton
+            containerStyle="mt-8"
+            onPress={submit}
+            isLoading={isSubmitting}
+          >
+            Sign Up
+          </AButton>
 
           <Text className="text-sm font-pregular text-gray-100 mt-6 text-center">
             Already have an account?{' '}
